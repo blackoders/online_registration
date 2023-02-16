@@ -12,15 +12,29 @@ defmodule Registration.Customer do
   end
   @spec check_name(binary) :: false | nil | true
   def check_name(name) do
-    IO.inspect(name)
     Regex.match?(~r/^([a-zA-Z]{3,30})/, name)
 
   end
 
   @spec check_aadhar(any) :: false | nil | true
   def check_aadhar(aadhar) do
-    IO.inspect(aadhar)
     Regex.match?(~r/^([0-9]{12}$)/, aadhar)
 
   end
+
+  def get_data_from_customer do
+    name = IO.gets("name with min 3'cha\n")
+    aadhar = IO.gets("enter your aadahr number\n")
+    customer_data = %{name: name, aadhar: aadhar}
+   if Registration.Customer.is_valid(customer_data) do
+
+       "your KYC is successfully updated."
+     else
+       "Please check the details you have entered and try again!"
+
+   end
+end
+
+
+
 end
