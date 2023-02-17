@@ -28,11 +28,13 @@ defmodule Registration.Customer do
     customer_data = %{name: name, aadhar: aadhar}
    if Registration.Customer.is_valid(customer_data) do
 
-       "your KYC is successfully updated."
+     IO.puts  "your KYC is successfully updated."
      else
-       "Please check the details you have entered and try again!"
+      IO.puts "Please check the details you have entered and try again!\n\n"
+       Registration.Customer.get_data_from_customer
 
    end
+
 end
 
 
