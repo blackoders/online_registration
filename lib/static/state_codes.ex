@@ -35,7 +35,8 @@ defmodule Static.StateCodes do
 	West_Bengal:	"WB",
     }
 
-    Map.get(codes,state)
+    atom = String.to_atom(state)
+    Map.get(codes,atom)
 
   end
 

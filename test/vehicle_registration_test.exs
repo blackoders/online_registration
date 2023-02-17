@@ -5,6 +5,7 @@ defmodule Registration.VehicleTest do
     valid_vehicle = %{
       name: "sai",
       aadhar: "561664075050",
+      state: "TamilNadu"
       vehicle_number: "TN 75 AA 7106",
       maker_class: "TATA",
       vehicle_class: "MOTOR CAR",
@@ -28,4 +29,6 @@ defmodule Registration.VehicleTest do
     valid_vehicle = state[:fuel_used]
     refute Registration.vehicle().rc_generation(%{valid_vehicle | fuel_used: "air"})
   end
+
+  test "get_state_code",
 end
