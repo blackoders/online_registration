@@ -1,17 +1,34 @@
 defmodule Registration.Vehicle do
-  import Static.StateCodes
+  alias Static.StateCodes
+  alias Registration.Customer
+  def rc_template(rc_details) do
+        name = rc_details[:name]
+        aadhar = rc_details[:aadhar]
+        vehicle_number = rc_details[:vehicle_number]
+        state = String.upcase(rc_details[:state])
 
-  def rc_generation() do
-    "isudhvskvjkfvkj                                 sh\n
-    dljvsdjlfnvlnvn                                   \n
-    h"
+    rc =
+"""
+⌜---------------------------------------⌝
+|    #{state} of TRANSPORT DEPARTMENT        |
+|       CERTIFICATE OF REGISTRATION        |
+|   Vehicle Ownwer           #{name}    |
+|     Owner aadhar           #{aadhar}  |
+|   vehicle_number           #{vehicle_number} |
+|
+⌞---------------------------------------⌟
+
+"""
+      IO.puts(rc)
+
+
   end
 
   def vehicle_number_generation(state) do
-    state_code = get_code(state)
+    state_code = StateCodes.get_code(state)
     random_number = Enum.random(1_000..9_999)
     district_number = Enum.random(0_0..5_2)
-    double_string = Registration.Vehicle.random_string()
+    double_string = Registration.Vehicle.random_string
     "#{state_code} #{district_number} #{double_string} #{random_number}"
   end
 
@@ -25,6 +42,22 @@ defmodule Registration.Vehicle do
     |> String.upcase()
   end
 
-  def input_from_ownwer do
+  def process do
+   customer_info =  Customer.get_customer_data()
+   vehicle_info =   StateCodes.select_state()
+  vehicle_number =  vehicle_number_generation(vehicle_info[:state])
+
+
+
+   name = customer_info[:name]
+   aadhar = customer_info[:aadhar]
+   state = vehicle_info[:state]
+   rc_details = %{name: name,
+                  aadhar: aadhar,
+                  vehicle_number: vehicle_number,
+                  state: state}
+     rc = rc_template(rc_details)
+
   end
+
 end

@@ -78,10 +78,13 @@ defmodule Static.StateCodes do
   end
  @spec index_range(integer) :: tuple()
   def index_range(n) do
-    if n<6
+    if n<6 do
      low = n*5-4
      high = n*5
      {low, high}
+    else
+      "please start from first"
+    end
 end
 
 def next_loop_value(user_entry, current_loop_value) do

@@ -1,5 +1,6 @@
 defmodule Registration.Customer do
   alias Registration.Helper
+  alias Static.StateCodes
 
   @spec is_valid(%{:aadhar => any, :name => binary, optional(any) => any}) :: nil | true
 
@@ -31,7 +32,7 @@ defmodule Registration.Customer do
     customer_data = %{name: name, aadhar: aadhar}
 
     if Registration.Customer.is_valid(customer_data) do
-      IO.puts("your KYC is successfully updated.")
+      IO.puts("your KYC is successfully updated.\n\n")
       trim_aadhar = String.trim(aadhar)
       customer_data = %{customer_data | aadhar: trim_aadhar}
     else
@@ -42,7 +43,7 @@ defmodule Registration.Customer do
 
   def get_vehicle_data() do
       vehicle_type = IO.gets("enter vehicle type \n")
-      state = select_state()
+      state = StateCodes.select_state()
   end
 
 end
