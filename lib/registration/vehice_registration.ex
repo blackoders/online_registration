@@ -10,12 +10,14 @@ defmodule Registration.Vehicle do
     rc =
 """
 ⌜---------------------------------------⌝
-|    #{state} of TRANSPORT DEPARTMENT        |
-|       CERTIFICATE OF REGISTRATION        |
-|   Vehicle Ownwer           #{name}    |
-|     Owner aadhar           #{aadhar}  |
-|   vehicle_number           #{vehicle_number} |
-|
+|     #{state} of TRANSPORT DEPARTMENT     |
+|      CERTIFICATE OF REGISTRATION     |
+| *-----*-----*-----*------*-----*-----*|
+|                                       |
+|   Vehicle Ownwer         #{name}      |
+|     Owner aadhar         #{aadhar}    |
+|   vehicle_number         #{vehicle_number} |
+|                                       |
 ⌞---------------------------------------⌟
 
 """
@@ -52,11 +54,18 @@ defmodule Registration.Vehicle do
    name = customer_info[:name]
    aadhar = customer_info[:aadhar]
    state = vehicle_info[:state]
+   IO.puts("\n\n RC is generating\n")
    rc_details = %{name: name,
                   aadhar: aadhar,
                   vehicle_number: vehicle_number,
                   state: state}
-     rc = rc_template(rc_details)
+    receive do
+    dummy ->
+      :ok
+     after
+      20_00 ->
+        rc = rc_template(rc_details)
+    end
 
   end
 
