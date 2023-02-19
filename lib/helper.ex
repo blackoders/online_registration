@@ -5,7 +5,7 @@ defmodule Registration.Helper do
   end
 
   def read_integer(prompt) do
-      input = IO.gets(prompt)
-      String.trim(input)
+    input = IO.gets(prompt)
+    String.trim(input)
   end
 end

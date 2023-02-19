@@ -42,8 +42,7 @@ defmodule Registration.Customer do
   end
 
   def get_vehicle_data() do
-      vehicle_type = IO.gets("enter vehicle type \n")
-      state = StateCodes.select_state()
+    vehicle_type = IO.gets("enter vehicle type \n")
+    state = StateCodes.select_state()
   end
-
 end
