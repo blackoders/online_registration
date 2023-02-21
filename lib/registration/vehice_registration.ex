@@ -8,9 +8,9 @@ defmodule Registration.Vehicle do
     vehicle_number = rc_details[:vehicle_number]
     state = String.upcase(rc_details[:state])
 
-    rc = """
+    """
     ⌜---------------------------------------⌝
-    |     #{state} of TRANSPORT DEPARTMENT     |
+    |     #{state} TRANSPORT DEPARTMENT     |
     |      CERTIFICATE OF REGISTRATION     |
     | *-----*-----*-----*------*-----*-----*|
     |                                       |
@@ -21,12 +21,10 @@ defmodule Registration.Vehicle do
     ⌞---------------------------------------⌟
 
     """
-
-    IO.puts(rc)
   end
 
-  def vehicle_number_generation(state) do
-    state_code = StateCodes.get_code(state)
+  def vehicle_number_generation(state_code) do
+    state_code = state_code
     random_number = Enum.random(1_000..9_999)
     district_number = Enum.random(0_0..5_2)
     double_string = Registration.Vehicle.random_string()
@@ -46,7 +44,7 @@ defmodule Registration.Vehicle do
   def process do
     customer_info = Customer.get_customer_data()
     vehicle_info = StateCodes.select_state()
-    vehicle_number = vehicle_number_generation(vehicle_info[:state])
+    vehicle_number = vehicle_number_generation(vehicle_info[:code])
 
     name = customer_info[:name]
     aadhar = customer_info[:aadhar]
@@ -54,12 +52,7 @@ defmodule Registration.Vehicle do
     CliSpinners.spin()
 
     rc_details = %{name: name, aadhar: aadhar, vehicle_number: vehicle_number, state: state}
-    # receive do
-    # dummy ->
-    #   :ok
-    #  after
-    #   20_00 ->
-    #     rc_template(rc_details)
-    # end
+    rc = rc_template(rc_details)
+    IO.puts(rc)
   end
 end

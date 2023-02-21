@@ -1,46 +1,6 @@
 defmodule Static.StateCodes do
   import Registration.Helper, only: [read_string: 1]
 
-  def get_code(state) do
-    codes = %{
-      Andaman_and_Nicobar: "AN",
-      Andhra_Pradesh: "AP",
-      Arunachal_Pradesh: "AR",
-      Assam: "AS",
-      Bihar: "BR",
-      Chandigarh: "CH",
-      Dadra_and_Nagar_Haveli: "DN",
-      Daman_and_Diu: "DD",
-      Delhi: "DL",
-      Goa: "GA",
-      Gujarat: "GJ",
-      Haryana: "HR",
-      Himachal_Pradesh: "HP",
-      Jammu_and_Kashmir: "JK",
-      Karnataka: "KA",
-      Kerala: "KL",
-      Lakshadweep: "LD",
-      Madhya_Pradesh: "MP",
-      Maharashtra: "MH",
-      Manipur: "MN",
-      Meghalaya: "ML",
-      Mizoram: "MZ",
-      Nagaland: "NL",
-      Orissa: "OR",
-      Pondicherry: "PY",
-      Punjab: "PN",
-      Rajasthan: "RJ",
-      Sikkim: "SK",
-      TamilNadu: "TN",
-      Tripura: "TR",
-      Uttar_Pradesh: "UP",
-      West_Bengal: "WB"
-    }
-
-    atom = String.to_atom(state)
-    Map.get(codes, atom)
-  end
-
   def get_state_code do
     %{
       1 => %{index: 1, state: "Andaman_and_Nicobar", code: "AN"},
@@ -85,10 +45,15 @@ defmodule Static.StateCodes do
       high = n * 5
       {low, high}
     else
-      "please start from first"
+      index_range(n)
     end
   end
 
+  @spec next_loop_value(String.t(), integer) :: integer()
+  @doc """
+  prepares next loop value which can specify which helps to display
+  the current showing states.
+  """
   def next_loop_value(user_entry, current_loop_value) do
     case user_entry do
       "p" -> current_loop_value - 1
@@ -102,7 +67,7 @@ defmodule Static.StateCodes do
   """
   def states_promt({low, high} = index_range) do
     indexes = Enum.to_list(low..high)
-    code = get_state_code
+    code = get_state_code()
 
     by_state =
       code
@@ -116,6 +81,7 @@ defmodule Static.StateCodes do
       |> Enum.join("\n")
   end
 
+  @spec select_state(integer) :: integer
   def select_state(current_loop_value \\ 1) do
     prompt =
       current_loop_value
@@ -127,9 +93,9 @@ defmodule Static.StateCodes do
     state = read_string(prompt)
 
     case state do
-      entry when entry in ["p", "n", "P", "N"] ->
-        entry = String.downcase(entry)
-        next_loop = next_loop_value(entry, current_loop_value)
+      user_entry when user_entry in ["p", "n", "P", "N"] ->
+        user_entry = String.downcase(user_entry)
+        next_loop = next_loop_value(user_entry, current_loop_value)
         select_state(next_loop)
 
       entry ->

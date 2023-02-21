@@ -2,7 +2,7 @@ defmodule Registration.Customer do
   alias Registration.Helper
   alias Static.StateCodes
 
-  @spec is_valid(%{:aadhar => any, :name => binary, optional(any) => any}) :: nil | true
+  @spec is_valid(map()) :: boolean()
 
   def is_valid(%{name: _name, aadhar: _aadhar} = customer_details) do
     %{name: name, aadhar: aadhar} = customer_details
@@ -41,6 +41,7 @@ defmodule Registration.Customer do
     end
   end
 
+  @spec get_vehicle_data() :: String.t()
   def get_vehicle_data() do
     vehicle_type = IO.gets("enter vehicle type \n")
     state = StateCodes.select_state()
